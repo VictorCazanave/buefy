@@ -127,7 +127,6 @@ export default {
     },
     data() {
         return {
-            selected: this.value,
             style: {},
             isActive: false,
             isHoverable: false,
@@ -167,13 +166,6 @@ export default {
     },
     watch: {
         /**
-        * When v-model is changed set the new selected item.
-        */
-        value(value) {
-            this.selected = value
-        },
-
-        /**
         * Emit event when isActive value is changed.
         */
         isActive(value) {
@@ -188,31 +180,29 @@ export default {
     methods: {
         /**
          * Click listener from DropdownItem.
-         *   1. Set new selected item.
+         *   1. Set new value.
          *   2. Emit input event to update the user v-model.
          *   3. Close the dropdown.
          */
-        selectItem(value) {
+        selectItem(item) {
+            let newValue = item
             if (this.multiple) {
-                if (this.selected) {
-                    if (this.selected.includes(value)) {
-                        // Remove value
-                        this.selected = this.selected.filter((val) => val !== value)
+                if (this.value) {
+                    if (this.value.includes(item)) {
+                        // Remove item
+                        newValue = this.value.filter((i) => i !== item)
                     } else {
-                        // Add value
-                        this.selected = [...this.selected, value]
+                        // Add item
+                        newValue = [...this.value, item]
                     }
                 } else {
-                    this.selected = [value]
+                    newValue = [item]
                 }
-                this.$emit('change', this.selected)
-            } else {
-                if (this.selected !== value) {
-                    this.selected = value
-                    this.$emit('change', this.selected)
-                }
+                this.$emit('change', newValue)
+            } else if (this.value !== item) {
+                this.$emit('change', newValue)
             }
-            this.$emit('input', this.selected)
+            this.$emit('input', newValue)
             if (!this.multiple) {
                 this.isActive = !this.closeOnClick
                 if (this.hoverable && this.closeOnClick) {

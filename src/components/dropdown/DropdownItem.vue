@@ -68,9 +68,9 @@ export default {
             return !this.parent.disabled && !this.separator && !this.disabled && !this.custom
         },
         isActive() {
-            if (this.parent.selected === null) return false
-            if (this.parent.multiple) return this.parent.selected.indexOf(this.value) >= 0
-            return this.value === this.parent.selected
+            if (this.parent.value === null) return false
+            if (this.parent.multiple) return this.parent.value.includes(this.value)
+            return this.value === this.parent.value
         },
         isFocusable() {
             return this.hasLink ? false : this.focusable
