@@ -9,7 +9,7 @@ const BDropdown = {
     template: '<b-dropdown-stub></b-dropdown-stub>',
     data() {
         return {
-            selected: dropdownSelected
+            value: dropdownSelected
         }
     }
 }
